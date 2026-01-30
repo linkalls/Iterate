@@ -31,7 +31,7 @@ export interface SQLiteAdapter {
  * Detect if running in Bun runtime
  */
 export function isBunRuntime(): boolean {
-  return typeof (globalThis as any).Bun !== 'undefined'
+  return 'Bun' in globalThis && typeof (globalThis as { Bun?: unknown }).Bun !== 'undefined'
 }
 
 /**
@@ -89,13 +89,16 @@ export class BunSqliteAdapter implements SQLiteAdapter {
 
   openDatabase(data: Uint8Array): SQLiteDatabase {
     // bun:sqlite requires a file path, so we need to write to temp file
+    // Use dynamic import for Node.js modules
     const fs = require('fs')
     const path = require('path')
     const os = require('os')
+    const crypto = require('crypto')
     
-    // Create a temporary file
+    // Create a temporary file with unique name
     const tmpDir = os.tmpdir()
-    const tmpFile = path.join(tmpDir, `anki-import-${Date.now()}.db`)
+    const uniqueId = `${Date.now()}-${crypto.randomBytes(8).toString('hex')}`
+    const tmpFile = path.join(tmpDir, `anki-import-${uniqueId}.db`)
     fs.writeFileSync(tmpFile, data)
     
     // Import bun:sqlite dynamically
@@ -104,6 +107,7 @@ export class BunSqliteAdapter implements SQLiteAdapter {
     
     // Track temp file for cleanup
     let tempFilePath = tmpFile
+    let isOpen = true
     
     return {
       prepare(sql: string): SQLiteStatement {
@@ -116,6 +120,8 @@ export class BunSqliteAdapter implements SQLiteAdapter {
           step(): boolean {
             if (!initialized) {
               // Fetch all rows on first step
+              // Note: This loads all results into memory at once, which differs from sql.js
+              // but is acceptable for Anki imports (typically < 10k cards per deck)
               rows = stmt.all()
               initialized = true
               currentIndex = -1
@@ -128,7 +134,7 @@ export class BunSqliteAdapter implements SQLiteAdapter {
             return rows[currentIndex] || {}
           },
           free(): void {
-            // Bun SQLite statements don't need explicit freeing
+            // Bun SQLite statements are automatically cleaned up
             rows = []
             currentIndex = -1
             initialized = false
@@ -136,7 +142,16 @@ export class BunSqliteAdapter implements SQLiteAdapter {
         }
       },
       close(): void {
-        db.close()
+        if (isOpen) {
+          try {
+            db.close()
+          } catch (error) {
+            // Ignore close errors
+          } finally {
+            isOpen = false
+          }
+        }
+        
         // Clean up temporary file
         try {
           fs.unlinkSync(tempFilePath)

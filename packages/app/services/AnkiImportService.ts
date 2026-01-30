@@ -93,11 +93,6 @@ export class AnkiImportService {
       
       // Initialize SQLite adapter and open database
       const adapter = await this.initAdapter()
-      if (!adapter) {
-        result.errors.push('Failed to initialize SQLite adapter')
-        return result
-      }
-      
       const db = adapter.openDatabase(new Uint8Array(dbData))
 
       try {
