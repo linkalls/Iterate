@@ -1,6 +1,6 @@
 import * as JSZip from 'jszip'
-import initSqlJs, { Database as SqlJsDatabase } from 'sql.js'
 import { Card, Deck, CardState } from '../domain/model'
+import { SQLiteDatabase, SQLiteAdapter, createSQLiteAdapter } from './sqlite-adapter'
 
 /**
  * Represents the structure of an Anki note
@@ -51,18 +51,16 @@ export interface AnkiImportResult {
  * Handles import of Anki .apkg files
  */
 export class AnkiImportService {
-  private static SQL: Awaited<ReturnType<typeof initSqlJs>> | null = null
+  private static adapter: SQLiteAdapter | null = null
 
   /**
-   * Initialize sql.js WebAssembly module
+   * Initialize SQLite adapter (sql.js or bun:sqlite based on runtime)
    */
-  private static async initSql(): Promise<typeof this.SQL> {
-    if (!this.SQL) {
-      this.SQL = await initSqlJs({
-        locateFile: (file: string) => `https://sql.js.org/dist/${file}`,
-      })
+  private static async initAdapter(): Promise<SQLiteAdapter> {
+    if (!this.adapter) {
+      this.adapter = await createSQLiteAdapter()
     }
-    return this.SQL
+    return this.adapter
   }
 
   /**
@@ -93,14 +91,14 @@ export class AnkiImportService {
 
       const dbData = await dbFile.async('arraybuffer')
       
-      // Initialize sql.js and open database
-      const SQL = await this.initSql()
-      if (!SQL) {
-        result.errors.push('Failed to initialize SQL.js')
+      // Initialize SQLite adapter and open database
+      const adapter = await this.initAdapter()
+      if (!adapter) {
+        result.errors.push('Failed to initialize SQLite adapter')
         return result
       }
       
-      const db = new SQL.Database(new Uint8Array(dbData))
+      const db = adapter.openDatabase(new Uint8Array(dbData))
 
       try {
         // Extract decks from col table
@@ -134,7 +132,7 @@ export class AnkiImportService {
   /**
    * Extract deck information from the Anki database
    */
-  private static async extractDecks(db: SqlJsDatabase): Promise<{
+  private static async extractDecks(db: SQLiteDatabase): Promise<{
     decks: Deck[]
     deckMap: Map<number, string>
     warnings: string[]
@@ -197,7 +195,7 @@ export class AnkiImportService {
    * Extract cards from the Anki database
    */
   private static async extractCards(
-    db: SqlJsDatabase,
+    db: SQLiteDatabase,
     deckMap: Map<number, string>
   ): Promise<{ cards: Card[]; warnings: string[] }> {
     const cards: Card[] = []
