@@ -23,7 +23,12 @@
 - ⌨️ **Keyboard Shortcuts** - Speed up studying with keyboard shortcuts (web) ✨ **NEW**
 - 📊 **Statistics Dashboard** - Track your learning progress and retention ✨ **NEW**
 - 📝 **Markdown Support** - Format cards with bold, italic, and code formatting ✨ **NEW**
+- 🖼️ **Media Support** - Add images and audio to cards for enhanced learning ✨ **PHASE 5**
+- 📋 **Card Templates** - Create multiple cards from templates efficiently ✨ **PHASE 5**
+- 🔄 **Import/Export** - Anki-compatible CSV and JSON format support ✨ **PHASE 5**
+- ⚡ **Bulk Operations** - Delete, move, reset, or duplicate multiple cards at once ✨ **PHASE 5**
 - 🚀 **Production Ready** - EAS Build and Vercel deployment configured
+
 
 ## 🎬 Quick Start
 
@@ -334,12 +339,12 @@ Comprehensive guides available in `/docs`:
 - [x] **Search and filtering** for deck management
 - [x] **Statistics dashboard** with progress tracking and retention metrics
 
-### 📋 Phase 5: Additional Enhancements (Future)
-- [ ] Import/Export (Anki format)
-- [ ] Card images and audio
+### ✅ Phase 5: Additional Enhancements (Complete) ✨ **NEW**
+- [x] **Import/Export** (Anki CSV and JSON formats)
+- [x] **Card images and audio** support
+- [x] **Bulk card operations** (delete, move, reset, duplicate)
+- [x] **Card templates** for creating multiple similar cards
 - [ ] Advanced statistics with charts and graphs
-- [ ] Bulk card operations
-- [ ] Card templates
 
 ### 🚀 Phase 6: Advanced (Future)
 - [ ] User authentication

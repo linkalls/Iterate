@@ -4,3 +4,8 @@ export * from './DeckCard'
 export * from './Layout'
 export * from './Typography'
 export * from './MarkdownText'
+export * from './TemplateSelector'
+export * from './BulkActionsMenu'
+export * from './ImportExportDialog'
+export * from './MediaUpload'
+
