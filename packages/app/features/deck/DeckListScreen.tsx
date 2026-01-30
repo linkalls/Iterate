@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useAtomValue } from 'jotai'
 import {
   Screen,
@@ -18,6 +18,7 @@ import {
   ButtonText,
   Caption,
 } from 'ui'
+import { Input } from 'tamagui'
 import { useDecks, useCardRepository } from '../../store'
 
 interface DeckListScreenProps {
@@ -34,6 +35,8 @@ export function DeckListScreen({
   const [deckStats, setDeckStats] = useState<
     Record<string, { total: number; due: number }>
   >({})
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filterDueOnly, setFilterDueOnly] = useState(false)
 
   // Load stats for each deck
   React.useEffect(() => {
@@ -53,6 +56,40 @@ export function DeckListScreen({
 
     loadStats()
   }, [decks, cardRepo])
+
+  if (!decks) {
+    return (
+      <Screen centered>
+        <Body>Loading decks...</Body>
+      </Screen>
+    )
+  }
+
+  // Filter and search decks
+  const filteredDecks = useMemo(() => {
+    if (!decks) return []
+    
+    let result = decks
+    
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase()
+      result = result.filter((deck) => 
+        deck.name.toLowerCase().includes(query) ||
+        deck.description?.toLowerCase().includes(query)
+      )
+    }
+    
+    // Apply due filter
+    if (filterDueOnly) {
+      result = result.filter((deck) => {
+        const stats = deckStats[deck.id]
+        return stats && stats.due > 0
+      })
+    }
+    
+    return result
+  }, [decks, searchQuery, filterDueOnly, deckStats])
 
   if (!decks) {
     return (
@@ -94,57 +131,115 @@ export function DeckListScreen({
             </Button>
           </Row>
 
-          {/* Deck grid */}
+          {/* Search and Filter */}
           <Column gap="md">
-            {decks.map((deck) => {
+            <Input
+              placeholder="Search decks..."
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              style={{
+                padding: 12,
+                backgroundColor: '$surface',
+                borderColor: '$border',
+                borderWidth: 1,
+                borderRadius: 8,
+                fontSize: 16,
+              }}
+            />
+            
+            <Row gap="sm">
+              <Button
+                variant={filterDueOnly ? 'primary' : 'secondary'}
+                onPress={() => setFilterDueOnly(!filterDueOnly)}
+              >
+                <ButtonText variant={filterDueOnly ? 'primary' : 'secondary'}>
+                  {filterDueOnly ? '✓ ' : ''}Due Today
+                </ButtonText>
+              </Button>
+              {(searchQuery || filterDueOnly) && (
+                <Button
+                  variant="ghost"
+                  onPress={() => {
+                    setSearchQuery('')
+                    setFilterDueOnly(false)
+                  }}
+                >
+                  <ButtonText variant="ghost">Clear Filters</ButtonText>
+                </Button>
+              )}
+            </Row>
+          </Column>
+
+          {/* Deck grid */}
+          {filteredDecks.length === 0 ? (
+            <Column gap="md" style={{ alignItems: 'center', paddingVertical: 32 }}>
+              <Body style={{ textAlign: 'center', color: '$textSecondary' }}>
+                No decks found matching your filters.
+              </Body>
+              {(searchQuery || filterDueOnly) && (
+                <Button
+                  variant="secondary"
+                  onPress={() => {
+                    setSearchQuery('')
+                    setFilterDueOnly(false)
+                  }}
+                >
+                  <ButtonText variant="secondary">Clear Filters</ButtonText>
+                </Button>
+              )}
+            </Column>
+          ) : (
+            <Column gap="md">
+              {filteredDecks.map((deck) => {
               const stats = deckStats[deck.id] || { total: 0, due: 0 }
 
-              return (
-                <DeckCard
-                  key={deck.id}
-                  onPress={() => onDeckSelect?.(deck.id)}
-                >
-                  <Column gap="sm">
-                    <DeckTitle>{deck.name}</DeckTitle>
+                return (
+                  <DeckCard
+                    key={deck.id}
+                    onPress={() => onDeckSelect?.(deck.id)}
+                  >
+                    <Column gap="sm">
+                      <DeckTitle>{deck.name}</DeckTitle>
 
-                    {deck.description && (
-                      <DeckDescription>{deck.description}</DeckDescription>
-                    )}
-
-                    <DeckStats>
-                      <DeckStat>
-                        <DeckStatValue>{stats.total}</DeckStatValue>
-                        <DeckStatLabel>Total Cards</DeckStatLabel>
-                      </DeckStat>
-
-                      <DeckStat>
-                        <DeckStatValue
-                          style={{
-                            color:
-                              stats.due > 0 ? '$primary' : '$textSecondary',
-                          }}
-                        >
-                          {stats.due}
-                        </DeckStatValue>
-                        <DeckStatLabel>Due Today</DeckStatLabel>
-                      </DeckStat>
-                    </DeckStats>
-
-                    <Row justify="between" marginTop="$sm">
-                      <Caption>
-                        Created {deck.created.toLocaleDateString()}
-                      </Caption>
-                      {stats.due > 0 && (
-                        <Caption style={{ color: '$primary', fontWeight: '700' }}>
-                          Ready to study! 📚
-                        </Caption>
+                      {deck.description && (
+                        <DeckDescription>{deck.description}</DeckDescription>
                       )}
-                    </Row>
-                  </Column>
-                </DeckCard>
-              )
-            })}
-          </Column>
+
+                      <DeckStats>
+                        <DeckStat>
+                          <DeckStatValue>{stats.total}</DeckStatValue>
+                          <DeckStatLabel>Total Cards</DeckStatLabel>
+                        </DeckStat>
+
+                        <DeckStat>
+                          <DeckStatValue
+                            style={{
+                              color:
+                                stats.due > 0 ? '$primary' : '$textSecondary',
+                            }}
+                          >
+                            {stats.due}
+                          </DeckStatValue>
+                          <DeckStatLabel>Due Today</DeckStatLabel>
+                        </DeckStat>
+                      </DeckStats>
+
+                      <Row justify="between" marginTop="$sm">
+                        <Caption>
+                          Created {deck.created.toLocaleDateString()}
+                        </Caption>
+                        {stats.due > 0 && (
+                          <Caption style={{ color: '$primary', fontWeight: '700' }}>
+                            Ready to study! 📚
+                          </Caption>
+                        )}
+                      </Row>
+                    </Column>
+                  </DeckCard>
+                )
+              })}
+            </Column>
+          )}
         </Column>
       </Container>
     </Screen>

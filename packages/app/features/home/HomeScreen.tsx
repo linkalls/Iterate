@@ -19,9 +19,10 @@ import { themeAtom, toggleThemeAtom, useDueCards, useDecks } from '../../store'
 interface HomeScreenProps {
   onStartStudy?: () => void
   onViewDecks?: () => void
+  onViewStatistics?: () => void
 }
 
-export function HomeScreen({ onStartStudy, onViewDecks }: HomeScreenProps) {
+export function HomeScreen({ onStartStudy, onViewDecks, onViewStatistics }: HomeScreenProps) {
   const [theme, toggleTheme] = useAtom(toggleThemeAtom)
   const dueCards = useDueCards()
   const decks = useDecks()
@@ -105,6 +106,12 @@ export function HomeScreen({ onStartStudy, onViewDecks }: HomeScreenProps) {
               <Button onPress={onViewDecks} fullWidth variant="secondary">
                 <ButtonText variant="secondary">📖 View All Decks</ButtonText>
               </Button>
+
+              {onViewStatistics && (
+                <Button onPress={onViewStatistics} fullWidth variant="secondary">
+                  <ButtonText variant="secondary">📊 View Statistics</ButtonText>
+                </Button>
+              )}
             </Column>
           </Card>
 

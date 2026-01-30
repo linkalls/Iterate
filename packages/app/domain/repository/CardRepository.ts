@@ -34,4 +34,9 @@ export interface CardRepository {
    * Get total number of cards in a deck
    */
   getCardCount(deckId: string): Promise<number>
+
+  /**
+   * Get all cards across all decks
+   */
+  getAllCards(): Promise<Card[]>
 }
