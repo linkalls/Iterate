@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAtom, useAtomValue } from 'jotai'
+import { Stack } from 'tamagui'
 import {
   Screen,
   Container,
@@ -22,8 +23,10 @@ import {
   useShowAnswer,
   useSessionComplete,
   useResetStudySession,
+  useCardRepository,
 } from '../../store'
 import { Rating } from '../../domain/model'
+import { fsrsService } from '../../services'
 
 interface StudyScreenProps {
   deckId: string
@@ -36,21 +39,54 @@ export function StudyScreen({ deckId, onComplete }: StudyScreenProps) {
   const [showAnswer, setShowAnswer] = useShowAnswer()
   const [sessionComplete, setSessionComplete] = useSessionComplete()
   const resetSession = useResetStudySession()
+  const cardRepo = useCardRepository()
+  const [schedulingInfo, setSchedulingInfo] = React.useState<any>(null)
+
+  // Calculate scheduling info when answer is shown
+  React.useEffect(() => {
+    if (showAnswer && dueCards && dueCards.length > 0 && currentIndex < dueCards.length) {
+      const currentCard = dueCards[currentIndex]
+      const info = fsrsService.getSchedulingInfo(currentCard)
+      setSchedulingInfo(info)
+    }
+  }, [showAnswer, currentIndex, dueCards])
 
   const handleShowAnswer = () => {
     setShowAnswer(true)
   }
 
   const handleRating = async (rating: Rating) => {
-    // TODO: Integrate ts-fsrs to update card
-    // For now, just move to next card
+    if (!dueCards || currentIndex >= dueCards.length) return
     
-    const nextIndex = currentIndex + 1
-    if (nextIndex >= dueCards.length) {
-      setSessionComplete(true)
-    } else {
-      setCurrentIndex(nextIndex)
-      setShowAnswer(false)
+    const currentCard = dueCards[currentIndex]
+    
+    try {
+      // Use FSRS to calculate the updated card
+      const updatedCard = fsrsService.reviewCard(currentCard, rating)
+      
+      // Save the updated card to the repository
+      await cardRepo.saveCard(updatedCard)
+      
+      // Move to next card
+      const nextIndex = currentIndex + 1
+      if (nextIndex >= dueCards.length) {
+        setSessionComplete(true)
+      } else {
+        setCurrentIndex(nextIndex)
+        setShowAnswer(false)
+        setSchedulingInfo(null)
+      }
+    } catch (error) {
+      console.error('Error updating card:', error)
+      // Still move to next card even if save fails
+      const nextIndex = currentIndex + 1
+      if (nextIndex >= dueCards.length) {
+        setSessionComplete(true)
+      } else {
+        setCurrentIndex(nextIndex)
+        setShowAnswer(false)
+        setSchedulingInfo(null)
+      }
     }
   }
 
@@ -182,25 +218,53 @@ export function StudyScreen({ deckId, onComplete }: StudyScreenProps) {
                   rating="again"
                   onPress={() => handleRating(Rating.Again)}
                 >
-                  <ButtonText size="sm">Again</ButtonText>
+                  <Column gap="xs" style={{ alignItems: 'center' }}>
+                    <ButtonText size="sm">Again</ButtonText>
+                    {schedulingInfo && (
+                      <Caption style={{ fontSize: 10 }}>
+                        {schedulingInfo.again.interval}
+                      </Caption>
+                    )}
+                  </Column>
                 </RatingButton>
                 <RatingButton
                   rating="hard"
                   onPress={() => handleRating(Rating.Hard)}
                 >
-                  <ButtonText size="sm">Hard</ButtonText>
+                  <Column gap="xs" style={{ alignItems: 'center' }}>
+                    <ButtonText size="sm">Hard</ButtonText>
+                    {schedulingInfo && (
+                      <Caption style={{ fontSize: 10 }}>
+                        {schedulingInfo.hard.interval}
+                      </Caption>
+                    )}
+                  </Column>
                 </RatingButton>
                 <RatingButton
                   rating="good"
                   onPress={() => handleRating(Rating.Good)}
                 >
-                  <ButtonText size="sm">Good</ButtonText>
+                  <Column gap="xs" style={{ alignItems: 'center' }}>
+                    <ButtonText size="sm">Good</ButtonText>
+                    {schedulingInfo && (
+                      <Caption style={{ fontSize: 10 }}>
+                        {schedulingInfo.good.interval}
+                      </Caption>
+                    )}
+                  </Column>
                 </RatingButton>
                 <RatingButton
                   rating="easy"
                   onPress={() => handleRating(Rating.Easy)}
                 >
-                  <ButtonText size="sm">Easy</ButtonText>
+                  <Column gap="xs" style={{ alignItems: 'center' }}>
+                    <ButtonText size="sm">Easy</ButtonText>
+                    {schedulingInfo && (
+                      <Caption style={{ fontSize: 10 }}>
+                        {schedulingInfo.easy.interval}
+                      </Caption>
+                    )}
+                  </Column>
                 </RatingButton>
               </Row>
             </Column>
@@ -222,6 +286,3 @@ export function StudyScreen({ deckId, onComplete }: StudyScreenProps) {
     </Screen>
   )
 }
-
-// Import Stack for progress bar
-import { Stack } from 'tamagui'
