@@ -1,14 +1,17 @@
-import { drizzle } from 'drizzle-orm/postgres-js'
-import postgres from 'postgres'
-import * as schema from './schema'
+// Default export using PostgreSQL (backwards compatible)
+// For specific database adapters, import from:
+//   - 'db/pg' for PostgreSQL
+//   - 'db/sqlite' for SQLite
+//   - 'db/mysql' for MySQL
+export * from './adapters/pg'
 
-const connectionString = process.env.DATABASE_URL || ''
+// Re-export schema types for convenience
+export type {
+  Deck,
+  NewDeck,
+  Card,
+  NewCard,
+  ReviewLog,
+  NewReviewLog,
+} from './schema/pg'
 
-// For migrations
-export const migrationClient = postgres(connectionString, { max: 1 })
-
-// For queries
-const queryClient = postgres(connectionString)
-export const db = drizzle(queryClient, { schema })
-
-export * from './schema'

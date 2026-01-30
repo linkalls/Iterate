@@ -3,4 +3,5 @@ export * from './StatisticsService'
 export * from './BulkOperationsService'
 export * from './CardTemplateService'
 export * from './ImportExportService'
-
+export * from './AnkiImportService'
+export * from './Phase6ImportService'

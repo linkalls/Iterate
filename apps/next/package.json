@@ -9,20 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "14.0.4",
+    "next": "14.2.23",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "solito": "^4.0.1",
-    "@tamagui/next-plugin": "^1.91.3",
-    "tamagui": "^1.91.3",
-    "jotai": "^2.6.0",
-    "app": "workspace:*",
-    "ui": "workspace:*"
+    "solito": "^4.2.2",
+    "@tamagui/next-plugin": "^1.116.13",
+    "tamagui": "^1.116.13",
+    "jotai": "^2.11.3",
+    "app": "*",
+    "ui": "*"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "typescript": "^5"
+    "@types/node": "^22",
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25",
+    "typescript": "^5.6.3"
   }
 }
