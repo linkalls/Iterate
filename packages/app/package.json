@@ -1,0 +1,13 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "types": "index.ts",
+  "dependencies": {
+    "jotai": "^2.6.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.45",
+    "typescript": "^5.3.3"
+  }
+}
