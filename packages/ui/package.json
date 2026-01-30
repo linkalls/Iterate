@@ -4,15 +4,15 @@
   "main": "index.tsx",
   "types": "index.tsx",
   "dependencies": {
-    "@tamagui/config": "^1.91.3",
-    "@tamagui/core": "^1.91.3",
-    "@tamagui/theme": "^1.91.3",
-    "tamagui": "^1.91.3",
-    "react": "^18.2.0",
-    "react-native-web": "^0.19.9"
+    "@tamagui/config": "^1.124.2",
+    "@tamagui/core": "^1.124.2",
+    "@tamagui/theme": "^1.124.2",
+    "tamagui": "^1.124.2",
+    "react": "^18.3.1",
+    "react-native-web": "^0.19.15"
   },
   "devDependencies": {
-    "@types/react": "^18.2.45",
-    "typescript": "^5.3.3"
+    "@types/react": "^18.3.20",
+    "typescript": "^5.9.3"
   }
 }

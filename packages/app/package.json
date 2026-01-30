@@ -4,15 +4,18 @@
   "main": "index.ts",
   "types": "index.ts",
   "dependencies": {
-    "jotai": "^2.6.0",
-    "jotai-devtools": "^0.7.0",
-    "drizzle-orm": "^0.30.0-beta",
-    "ts-fsrs": "^3.5.0",
+    "jotai": "^2.17.0",
+    "jotai-devtools": "^0.10.2",
+    "drizzle-orm": "^0.45.1",
+    "ts-fsrs": "^5.2.3",
+    "jszip": "^3.10.1",
+    "sql.js": "^1.13.0",
     "db": "workspace:*",
     "ui": "workspace:*"
   },
   "devDependencies": {
-    "@types/react": "^18.2.45",
-    "typescript": "^5.3.3"
+    "@types/react": "^18.3.20",
+    "@types/sql.js": "^1.4.9",
+    "typescript": "^5.9.3"
   }
 }

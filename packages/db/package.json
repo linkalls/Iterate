@@ -3,12 +3,24 @@
   "version": "0.1.0",
   "main": "index.ts",
   "types": "index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./schema/pg": "./schema/pg.ts",
+    "./schema/sqlite": "./schema/sqlite.ts",
+    "./schema/mysql": "./schema/mysql.ts",
+    "./pg": "./adapters/pg.ts",
+    "./sqlite": "./adapters/sqlite.ts",
+    "./mysql": "./adapters/mysql.ts"
+  },
   "dependencies": {
-    "drizzle-orm": "^0.30.0-beta",
-    "postgres": "^3.4.3"
+    "drizzle-orm": "^0.45.1",
+    "postgres": "^3.4.8",
+    "better-sqlite3": "^12.6.2",
+    "mysql2": "^3.16.2"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.20.14-beta",
-    "typescript": "^5.3.3"
+    "drizzle-kit": "^0.31.8",
+    "@types/better-sqlite3": "^7.6.14",
+    "typescript": "^5.9.3"
   }
 }
