@@ -179,7 +179,8 @@ export function AddCardScreen({
                 • Keep questions clear and specific{'\n'}
                 • Break complex topics into multiple cards{'\n'}
                 • Use your own words to aid memory{'\n'}
-                • Add context if needed
+                • Add context if needed{'\n'}
+                • Use **bold**, *italic*, or `code` for emphasis
               </Body>
             </Column>
           </Card>

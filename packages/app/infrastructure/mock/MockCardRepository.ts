@@ -85,4 +85,8 @@ export class MockCardRepository implements CardRepository {
       (card) => card.deckId === deckId
     ).length
   }
+
+  async getAllCards(): Promise<Card[]> {
+    return Array.from(this.cards.values())
+  }
 }

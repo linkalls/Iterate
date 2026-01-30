@@ -65,6 +65,14 @@ export class DrizzleCardRepository implements CardRepository {
     return result.length
   }
 
+  async getAllCards(): Promise<Card[]> {
+    const result = await db.query.cards.findMany({
+      orderBy: (cards, { asc }) => [asc(cards.created)],
+    })
+
+    return result.map(this.mapToCard)
+  }
+
   private mapToCard(dbCard: DBCard): Card {
     return {
       id: dbCard.id,
