@@ -67,8 +67,41 @@ Then:
 3. Click "Show Answer"
 4. Rate your knowledge (Again/Hard/Good/Easy)
 5. Notice the interval predictions! (10m, 1d, 3d, 7d)
+6. **NEW**: Use keyboard shortcuts (web only) - Press 1-4 to rate!
 
-## 4. Explore Features
+## 4. Explore New Features ✨
+
+### Search and Filter Decks
+
+1. Go to "View All Decks"
+2. Use the search bar to find specific decks
+3. Click "Due Today" to filter decks with cards to review
+4. Combine search and filters for precise results
+
+### Keyboard Shortcuts (Web Only)
+
+Speed up your studies with keyboard shortcuts:
+- **Space/Enter**: Show answer
+- **1-4 Keys**: Rate card (Again/Hard/Good/Easy)
+- Look for key hints on the rating buttons!
+
+### Track Your Progress
+
+1. Click "📊 View Statistics" from home
+2. See your daily and weekly review counts
+3. Check your retention rate
+4. View card distribution (New/Learning/Review)
+5. Get motivated by progress messages!
+
+### Format Cards with Markdown
+
+When creating cards, use markdown for better formatting:
+- `**bold text**` for important terms
+- `*italic text*` for emphasis
+- `` `code` `` for technical terms
+- Example: "What is `React`?" → "A **JavaScript** library for building UIs"
+
+## 5. More Features
 
 ### FSRS Scheduling
 
@@ -90,7 +123,9 @@ Then:
 - Same data (when using shared backend)
 - Consistent UI across platforms
 
-## 5. Development Tips
+**Note**: Keyboard shortcuts are web-only for best experience
+
+## 6. Development Tips
 
 ### Project Structure
 
@@ -153,7 +188,7 @@ bun build
 bun clean
 ```
 
-## 6. Deploy to Production
+## 7. Deploy to Production
 
 ### Web App (Vercel)
 
@@ -227,6 +262,7 @@ bunx tsc --noEmit
 
 ## Need Help?
 
+- 📖 Read [docs/FEATURES.md](./docs/FEATURES.md) for new features guide ✨ **NEW**
 - 📖 Read [IMPLEMENTATION.md](./IMPLEMENTATION.md) for detailed docs
 - 📖 Check [ARCHITECTURE.md](./ARCHITECTURE.md) for system design
 - 📖 See [DEVELOPMENT.md](./DEVELOPMENT.md) for best practices

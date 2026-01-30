@@ -12,14 +12,18 @@
 
 - 🎨 **Beautiful UI** - Carefully crafted interface with attention to detail
 - 🌓 **Dark & Light Themes** - Eye-friendly modes for day and night study
-- 📚 **FSRS Algorithm** - Real spaced repetition with interval predictions ✨ **NEW**
-- 🔄 **Cross-Platform** - Web (Next.js) and Mobile (Expo) apps ready ✨ **NEW**
+- 📚 **FSRS Algorithm** - Real spaced repetition with interval predictions
+- 🔄 **Cross-Platform** - Web (Next.js) and Mobile (Expo) apps ready
 - 💾 **Type-Safe Database** - Drizzle ORM with full TypeScript support
 - ⚡ **Fast & Responsive** - Optimized performance with Jotai state management
 - 🎯 **Clean Architecture** - Maintainable, testable, and extensible code
-- 📝 **Card Management** - Create and edit flashcards with ease ✨ **NEW**
-- 📚 **Deck Management** - Organize cards by topic ✨ **NEW**
-- 🚀 **Production Ready** - EAS Build and Vercel deployment configured ✨ **NEW**
+- 📝 **Card Management** - Create and edit flashcards with ease
+- 📚 **Deck Management** - Organize cards by topic
+- 🔍 **Search & Filter** - Quickly find decks with search and filtering ✨ **NEW**
+- ⌨️ **Keyboard Shortcuts** - Speed up studying with keyboard shortcuts (web) ✨ **NEW**
+- 📊 **Statistics Dashboard** - Track your learning progress and retention ✨ **NEW**
+- 📝 **Markdown Support** - Format cards with bold, italic, and code formatting ✨ **NEW**
+- 🚀 **Production Ready** - EAS Build and Vercel deployment configured
 
 ## 🎬 Quick Start
 
@@ -324,15 +328,20 @@ Comprehensive guides available in `/docs`:
 - [x] **Vercel deployment** ready
 - [x] Shared codebase across platforms
 
-### 📋 Phase 4: Enhancement (Future)
-- [ ] Markdown support in cards
-- [ ] Keyboard shortcuts
-- [ ] Search and filtering
-- [ ] Import/Export (Anki format)
-- [ ] Statistics dashboard
-- [ ] Card images and audio
+### ✅ Phase 4: Enhancement (Complete) ✨ **NEW**
+- [x] **Markdown support** in cards with bold, italic, and code formatting
+- [x] **Keyboard shortcuts** for efficient studying (web only)
+- [x] **Search and filtering** for deck management
+- [x] **Statistics dashboard** with progress tracking and retention metrics
 
-### 🚀 Phase 5: Advanced (Future)
+### 📋 Phase 5: Additional Enhancements (Future)
+- [ ] Import/Export (Anki format)
+- [ ] Card images and audio
+- [ ] Advanced statistics with charts and graphs
+- [ ] Bulk card operations
+- [ ] Card templates
+
+### 🚀 Phase 6: Advanced (Future)
 - [ ] User authentication
 - [ ] Cloud sync with Supabase
 - [ ] Offline mode with SQLite
