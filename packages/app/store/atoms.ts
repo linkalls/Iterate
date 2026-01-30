@@ -3,11 +3,13 @@ import {
   CardRepository,
   DeckRepository,
   ReviewLogRepository,
+  CardTemplateRepository,
 } from '../domain/repository'
 import {
   MockCardRepository,
   MockDeckRepository,
   MockReviewLogRepository,
+  MockCardTemplateRepository,
 } from '../infrastructure/mock'
 
 /**
@@ -28,6 +30,10 @@ export const deckRepositoryAtom = atom<DeckRepository>(
 
 export const reviewLogRepositoryAtom = atom<ReviewLogRepository>(
   new MockReviewLogRepository()
+)
+
+export const cardTemplateRepositoryAtom = atom<CardTemplateRepository>(
+  new MockCardTemplateRepository()
 )
 
 /**
@@ -68,6 +74,12 @@ export const deckDueCardsAtom = atom(async (get) => {
   if (!deckId) return []
   const today = new Date()
   return await repo.getDueCards(today, deckId)
+})
+
+// Get all templates
+export const templatesAtom = atom(async (get) => {
+  const repo = get(cardTemplateRepositoryAtom)
+  return await repo.getAllTemplates()
 })
 
 /**
