@@ -12,13 +12,18 @@
 
 - 🎨 **Beautiful UI** - Carefully crafted interface with attention to detail
 - 🌓 **Dark & Light Themes** - Eye-friendly modes for day and night study
-- 📚 **FSRS Algorithm** - State-of-the-art spaced repetition scheduling
-- 🔄 **Cross-Platform** - Single codebase for Web, iOS, and Android
+- 📚 **FSRS Algorithm** - Real spaced repetition with interval predictions ✨ **NEW**
+- 🔄 **Cross-Platform** - Web (Next.js) and Mobile (Expo) apps ready ✨ **NEW**
 - 💾 **Type-Safe Database** - Drizzle ORM with full TypeScript support
 - ⚡ **Fast & Responsive** - Optimized performance with Jotai state management
 - 🎯 **Clean Architecture** - Maintainable, testable, and extensible code
+- 📝 **Card Management** - Create and edit flashcards with ease ✨ **NEW**
+- 📚 **Deck Management** - Organize cards by topic ✨ **NEW**
+- 🚀 **Production Ready** - EAS Build and Vercel deployment configured ✨ **NEW**
 
 ## 🎬 Quick Start
+
+### Web App (Next.js)
 
 ```bash
 # Clone the repository
@@ -28,8 +33,24 @@ cd Iterate
 # Install dependencies with Bun
 bun install
 
-# Start development server
+# Start web development server
+cd apps/next
 bun dev
+```
+
+### Mobile App (Expo)
+
+```bash
+# Install dependencies
+bun install
+
+# Start Expo development server
+cd apps/expo
+bun start
+
+# Or run on specific platform
+bun ios      # iOS simulator
+bun android  # Android emulator
 ```
 
 ## 📖 Overview
@@ -38,16 +59,28 @@ Iterate is a powerful SRS (Spaced Repetition System) application designed to hel
 
 ### What Makes Iterate Special?
 
+- **Fully Functional**: Complete SRS app with real FSRS scheduling, card/deck management
 - **Anki-Level Quality**: Incredibly polished UX/UI rivaling the best SRS apps
 - **Modern Stack**: Built with the latest technologies for best performance
 - **Flexible Backend**: Easy to switch between databases (Mock, Drizzle, Supabase)
 - **Developer-Friendly**: Clean architecture makes it easy to understand and extend
+- **Production Ready**: Deploy to app stores (EAS Build) and web (Vercel) today
 
 ## 🏗️ Tech Stack
 
 | Category | Technology | Purpose |
 |----------|-----------|---------|
 | **Monorepo** | Turborepo | Fast, efficient monorepo management |
+| **Package Manager** | Bun | Lightning-fast installation and execution |
+| **Web** | Next.js 14 (App Router) | SEO-optimized web application ✨ **READY**
+| **Mobile** | Expo (~50.0) | iOS/Android native apps ✨ **READY**
+| **Navigation** | React Navigation | Mobile app navigation ✨ **NEW**
+| **UI Library** | Tamagui | Beautiful, cross-platform UI components |
+| **Database** | Drizzle ORM (@beta) | Type-safe database queries |
+| **Backend** | PostgreSQL / Supabase | Production database (configurable) |
+| **SRS Algorithm** | ts-fsrs (v3.5.0) | Real FSRS algorithm implementation ✨ **INTEGRATED**
+| **State Management** | Jotai | Atomic, performant state updates |
+| **Language** | TypeScript | Full type safety |
 | **Package Manager** | Bun | Lightning-fast installation and execution |
 | **Web** | Next.js (App Router) | SEO-optimized web application |
 | **Mobile** | Expo (React Native) | iOS/Android native apps |
@@ -277,26 +310,34 @@ Comprehensive guides available in `/docs`:
 - [x] Dark/Light theme system
 - [x] Core screens (Home, Decks, Study)
 
-### 🚧 Phase 2: Core Features (In Progress)
-- [ ] ts-fsrs integration for scheduling
-- [ ] Card creation and editing
-- [ ] Deck management (create, edit, delete)
-- [ ] Study session with FSRS ratings
-- [ ] Progress tracking and statistics
+### ✅ Phase 2: Core Features (Complete) ✨ **NEW**
+- [x] **ts-fsrs integration** for real spaced repetition
+- [x] **Interval predictions** shown on rating buttons
+- [x] **Card creation** and editing UI
+- [x] **Deck management** (create, edit)
+- [x] **FSRS scheduling** with adaptive difficulty
 
-### 📋 Phase 3: Enhancement
+### ✅ Phase 3: Cross-Platform Apps (Complete) ✨ **NEW**
+- [x] **Expo mobile app** with React Navigation
+- [x] **Next.js web app** with App Router
+- [x] **EAS Build** configuration for app stores
+- [x] **Vercel deployment** ready
+- [x] Shared codebase across platforms
+
+### 📋 Phase 4: Enhancement (Future)
 - [ ] Markdown support in cards
 - [ ] Keyboard shortcuts
 - [ ] Search and filtering
 - [ ] Import/Export (Anki format)
 - [ ] Statistics dashboard
+- [ ] Card images and audio
 
-### 🚀 Phase 4: Advanced
-- [ ] Authentication system
+### 🚀 Phase 5: Advanced (Future)
+- [ ] User authentication
 - [ ] Cloud sync with Supabase
 - [ ] Offline mode with SQLite
-- [ ] Mobile apps (iOS/Android)
-- [ ] Progressive Web App
+- [ ] Multiple user profiles
+- [ ] Collaborative decks
 
 ## 🤝 Contributing
 
