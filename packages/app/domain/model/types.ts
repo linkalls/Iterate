@@ -10,6 +10,15 @@ export interface Card {
   created: Date
   modified: Date
   
+  // Media support (Phase 5)
+  frontImage?: string  // URL or base64
+  backImage?: string   // URL or base64
+  frontAudio?: string  // URL or base64
+  backAudio?: string   // URL or base64
+  
+  // Card template reference (Phase 5)
+  templateId?: string
+  
   // FSRS scheduling data
   due: Date
   stability: number
@@ -63,4 +72,20 @@ export enum Rating {
   Hard = 2,
   Good = 3,
   Easy = 4,
+}
+
+/**
+ * Card Template Model (Phase 5)
+ * A template for creating multiple similar cards
+ */
+export interface CardTemplate {
+  id: string
+  name: string
+  description?: string
+  deckId?: string  // Optional: associate with a deck
+  frontTemplate: string  // Template with placeholders like {{field1}}
+  backTemplate: string
+  fields: string[]  // Field names used in the template
+  created: Date
+  modified: Date
 }
