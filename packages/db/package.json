@@ -1,17 +1,14 @@
 {
-  "name": "app",
+  "name": "db",
   "version": "0.1.0",
   "main": "index.ts",
   "types": "index.ts",
   "dependencies": {
-    "jotai": "^2.6.0",
-    "jotai-devtools": "^0.7.0",
     "drizzle-orm": "^0.30.0-beta",
-    "db": "workspace:*",
-    "ui": "workspace:*"
+    "postgres": "^3.4.3"
   },
   "devDependencies": {
-    "@types/react": "^18.2.45",
+    "drizzle-kit": "^0.20.14-beta",
     "typescript": "^5.3.3"
   }
 }
