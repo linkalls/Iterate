@@ -341,17 +341,26 @@ export class AnkiImportService {
    * Removes basic HTML tags while preserving content
    */
   private static cleanHtml(html: string): string {
-    return html
-      .replace(/<br\s*\/?>/gi, '\n')
-      .replace(/<div[^>]*>/gi, '\n')
-      .replace(/<\/div>/gi, '')
-      .replace(/<[^>]+>/g, '')
+    // First, decode HTML entities before sanitizing
+    let decoded = html
       .replace(/&nbsp;/g, ' ')
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
-      .replace(/&amp;/g, '&')
       .replace(/&quot;/g, '"')
-      .trim()
+      .replace(/&amp;/g, '&')
+    
+    // Then sanitize HTML by removing tags in a loop to handle nested tags
+    let previous = ''
+    while (previous !== decoded) {
+      previous = decoded
+      decoded = decoded
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<div[^>]*>/gi, '\n')
+        .replace(/<\/div>/gi, '')
+        .replace(/<[^>]+>/g, '')
+    }
+    
+    return decoded.trim()
   }
 
   /**

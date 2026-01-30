@@ -343,16 +343,17 @@ export class Phase6ImportService {
 
   /**
    * Decode XML entities
+   * Note: &amp; must be replaced last to avoid double-decoding
    */
   private static decodeXmlEntities(text: string): string {
     return text
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&amp;/g, '&')
-      .replace(/&quot;/g, '"')
-      .replace(/&apos;/g, "'")
       .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(parseInt(dec, 10)))
       .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&apos;/g, "'")
+      .replace(/&amp;/g, '&') // Must be last to avoid double-decoding
   }
 
   /**
