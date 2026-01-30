@@ -1,4 +1,4 @@
-import JSZip from 'jszip'
+import * as JSZip from 'jszip'
 import initSqlJs, { Database as SqlJsDatabase } from 'sql.js'
 import { Card, Deck, CardState } from '../domain/model'
 
@@ -38,7 +38,7 @@ interface AnkiDeck {
 /**
  * Result of an import operation
  */
-export interface ImportResult {
+export interface AnkiImportResult {
   success: boolean
   decks: Deck[]
   cards: Card[]
@@ -70,8 +70,8 @@ export class AnkiImportService {
    * @param apkgData - ArrayBuffer containing the .apkg file data
    * @param userId - User ID to assign to imported cards
    */
-  static async importFromApkg(apkgData: ArrayBuffer, userId?: string): Promise<ImportResult> {
-    const result: ImportResult = {
+  static async importFromApkg(apkgData: ArrayBuffer, userId?: string): Promise<AnkiImportResult> {
+    const result: AnkiImportResult = {
       success: false,
       decks: [],
       cards: [],

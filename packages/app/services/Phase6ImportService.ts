@@ -24,7 +24,7 @@ interface Phase6VocabEntry {
 /**
  * Result of an import operation
  */
-export interface ImportResult {
+export interface Phase6ImportResult {
   success: boolean
   decks: Deck[]
   cards: Card[]
@@ -43,8 +43,8 @@ export class Phase6ImportService {
    * @param xmlContent - XML string containing Phase6 export data
    * @param deckName - Name for the imported deck
    */
-  static importFromXml(xmlContent: string, deckName: string = 'Phase6 Import'): ImportResult {
-    const result: ImportResult = {
+  static importFromXml(xmlContent: string, deckName: string = 'Phase6 Import'): Phase6ImportResult {
+    const result: Phase6ImportResult = {
       success: false,
       decks: [],
       cards: [],
@@ -96,8 +96,8 @@ export class Phase6ImportService {
    * @param csvContent - CSV string containing Phase6 export data
    * @param deckName - Name for the imported deck
    */
-  static importFromCsv(csvContent: string, deckName: string = 'Phase6 Import'): ImportResult {
-    const result: ImportResult = {
+  static importFromCsv(csvContent: string, deckName: string = 'Phase6 Import'): Phase6ImportResult {
+    const result: Phase6ImportResult = {
       success: false,
       decks: [],
       cards: [],
