@@ -91,6 +91,14 @@ export function DeckListScreen({
     return result
   }, [decks, searchQuery, filterDueOnly, deckStats])
 
+  if (!decks) {
+    return (
+      <Screen centered>
+        <Body>Loading decks...</Body>
+      </Screen>
+    )
+  }
+
   if (decks.length === 0) {
     return (
       <Screen centered>

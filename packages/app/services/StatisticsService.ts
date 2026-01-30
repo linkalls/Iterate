@@ -120,20 +120,20 @@ export class StatisticsService {
    * Get a human-readable summary of progress
    */
   static getProgressSummary(stats: StudyStatistics): string {
-    const { cardsReviewedToday, totalCards, averageRetention } = stats
+    const { cardsReviewedToday } = stats
     
     if (cardsReviewedToday === 0) {
       return "Start studying to see your progress!"
     }
     
-    if (cardsReviewedToday > 0 && cardsReviewedToday < 10) {
-      return "Good start! Keep it up! 💪"
+    if (cardsReviewedToday >= 30) {
+      return "Amazing dedication! You're crushing it! 🌟"
     }
     
-    if (cardsReviewedToday >= 10 && cardsReviewedToday < 30) {
+    if (cardsReviewedToday >= 10) {
       return "Great work today! You're on fire! 🔥"
     }
     
-    return "Amazing dedication! You're crushing it! 🌟"
+    return "Good start! Keep it up! 💪"
   }
 }

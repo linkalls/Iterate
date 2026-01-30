@@ -7,7 +7,6 @@ import {
   Container,
   CardContainer,
   CardLabel,
-  CardText,
   CardDivider,
   Button,
   ButtonText,
@@ -53,11 +52,11 @@ export function StudyScreen({ deckId, onComplete }: StudyScreenProps) {
     }
   }, [showAnswer, currentIndex, dueCards])
 
-  const handleShowAnswer = () => {
+  const handleShowAnswer = React.useCallback(() => {
     setShowAnswer(true)
-  }
+  }, [setShowAnswer])
 
-  const handleRating = async (rating: Rating) => {
+  const handleRating = React.useCallback(async (rating: Rating) => {
     if (!dueCards || currentIndex >= dueCards.length) return
     
     const currentCard = dueCards[currentIndex]
@@ -90,7 +89,7 @@ export function StudyScreen({ deckId, onComplete }: StudyScreenProps) {
         setSchedulingInfo(null)
       }
     }
-  }
+  }, [dueCards, currentIndex, cardRepo, setSessionComplete, setCurrentIndex, setShowAnswer])
 
   const handleRestart = () => {
     resetSession()
@@ -138,7 +137,7 @@ export function StudyScreen({ deckId, onComplete }: StudyScreenProps) {
 
     window.addEventListener('keydown', handleKeyPress)
     return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [showAnswer, sessionComplete, currentIndex, dueCards])
+  }, [showAnswer, sessionComplete, currentIndex, dueCards, handleShowAnswer, handleRating])
 
   // Loading state
   if (!dueCards) {

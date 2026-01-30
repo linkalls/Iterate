@@ -23,6 +23,7 @@ interface StatisticsScreenProps {
 export function StatisticsScreen({ onBack }: StatisticsScreenProps) {
   const cardRepo = useCardRepository()
   const [stats, setStats] = useState<StudyStatistics | null>(null)
+  const [cardsDue, setCardsDue] = useState<number>(0)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -35,6 +36,10 @@ export function StatisticsScreen({ onBack }: StatisticsScreenProps) {
         // Calculate statistics
         const statistics = StatisticsService.calculateStatistics(allCards)
         setStats(statistics)
+        
+        // Get cards due today
+        const dueCards = await cardRepo.getDueCards(new Date())
+        setCardsDue(dueCards.length)
       } catch (error) {
         console.error('Error loading statistics:', error)
       } finally {
@@ -118,7 +123,7 @@ export function StatisticsScreen({ onBack }: StatisticsScreenProps) {
                 <Column gap="sm">
                   <Caption>Cards Due</Caption>
                   <Heading3>
-                    {stats.totalCards - stats.cardsReviewedToday}
+                    {cardsDue}
                   </Heading3>
                 </Column>
               </Card>
@@ -168,7 +173,7 @@ export function StatisticsScreen({ onBack }: StatisticsScreenProps) {
                       overflow="hidden"
                     >
                       <Stack
-                        width={`${(stats.newCards / stats.totalCards) * 100}%`}
+                        width={stats.totalCards > 0 ? `${(stats.newCards / stats.totalCards) * 100}%` : '0%'}
                         height="100%"
                         backgroundColor="$primary"
                       />
@@ -189,7 +194,7 @@ export function StatisticsScreen({ onBack }: StatisticsScreenProps) {
                       overflow="hidden"
                     >
                       <Stack
-                        width={`${(stats.learningCards / stats.totalCards) * 100}%`}
+                        width={stats.totalCards > 0 ? `${(stats.learningCards / stats.totalCards) * 100}%` : '0%'}
                         height="100%"
                         backgroundColor="#F59E0B"
                       />
@@ -210,7 +215,7 @@ export function StatisticsScreen({ onBack }: StatisticsScreenProps) {
                       overflow="hidden"
                     >
                       <Stack
-                        width={`${(stats.reviewCards / stats.totalCards) * 100}%`}
+                        width={stats.totalCards > 0 ? `${(stats.reviewCards / stats.totalCards) * 100}%` : '0%'}
                         height="100%"
                         backgroundColor="#10B981"
                       />
@@ -254,10 +259,10 @@ export function StatisticsScreen({ onBack }: StatisticsScreenProps) {
                   />
                 </Stack>
                 <Caption style={{ textAlign: 'center', color: '$textSecondary' }}>
-                  {stats.averageRetention > 80 && "Excellent retention! 🌟"}
-                  {stats.averageRetention > 60 && stats.averageRetention <= 80 && "Good progress! 👍"}
-                  {stats.averageRetention > 40 && stats.averageRetention <= 60 && "Keep practicing! 💪"}
-                  {stats.averageRetention <= 40 && "Focus on consistent reviews 📚"}
+                  {stats.averageRetention > 80 ? "Excellent retention! 🌟" :
+                   stats.averageRetention > 60 ? "Good progress! 👍" :
+                   stats.averageRetention > 40 ? "Keep practicing! 💪" :
+                   "Focus on consistent reviews 📚"}
                 </Caption>
               </Column>
             </Card>
